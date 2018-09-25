@@ -19,7 +19,7 @@ Manual Setup
 sudo su
 
 # dependency
-apt-get install apache2 mysql-server mysql-client php libapache2-mod-php php-mcrypt php-gnupg php-mysql php-gmp php-curl php-bcmath php-gd git mysqli mcrypt curl gmp gd unzip atool
+apt-get install nginx mysql-server mysql-client php libapache2-mod-php php-mcrypt php-gnupg php-mysql php-gmp php-curl php-bcmath php-gd git mysqli mcrypt curl gmp gd unzip atool
 
 # install annularis source (from git)
 cd /var/www/html
@@ -33,20 +33,20 @@ service apache2 restart
 
 # install bitcoin
 cd /tmp
-wget https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-x86_64-linux-gnu.tar.gz # or 32bit
-aunpack bitcoin-0.15.1-x86_64-linux-gnu.tar.gz
-cd bitcoin-0.15.1
+wget https://bitcoin.org/bin/bitcoin-core-0.16.3/bitcoin-0.16.3-x86_64-linux-gnu.tar.gz # or 32bit
+tar xvf bitcoin-0.16.3-x86_64-linux-gnu.tar.gz
+cd bitcoin-0.16.3
 cp bin/* /usr/local/bin/
 
 # run bitcoin
-sudo -u user bitcoind -daemon -testnet
+bitcoind -daemon -testnet -rpcport="7530" -rpcuser="bitcoinuser" -rpcpassword="bitcoinpass"
 
 # change AllowOverride All for /var/www
-vim /etc/apache2/apache2.conf
+# vim /etc/apache2/apache2.conf
 
 # change DocumentRoot to /var/www/shop
-vim /etc/apache2/sites-enabled/000-default.conf
-service apache2 restart
+# vim /etc/apache2/sites-enabled/000-default.conf
+# service apache2 restart
 
 # add mysql user and add database for him
 CREATE DATABASE annularis;
